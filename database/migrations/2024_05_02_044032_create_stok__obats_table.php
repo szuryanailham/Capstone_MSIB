@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('stok__obats', function (Blueprint $table) {
             $table->id();
-            $table->string('id_Pasien')->unique();
-            $table->string('nama_depan');
-            $table->string('nama_belakang');
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->bigInteger('kode_obat')->unique();
+            $table->string('Nama_obat');
+            $table->foreignId('category_id');
+            $table->text('resep');
+            $table->text('keterangan');
+            $table->bigInteger('stok');
+            $table->decimal('harga', 10, 2);
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('stok__obats');
     }
 };
