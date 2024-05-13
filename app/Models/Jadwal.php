@@ -5,13 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Blog extends Model
+class Jadwal extends Model
 {
     use HasFactory;
+
+    public function transaksi(){
+        return $this->belongsTo(transaksi::class);
+    }
+
     public function dokter(){
         return $this->belongsTo(Dokter::class);
-    }
-    public function category(){
-        return $this->belongsTo(Category::class);
     }
 }
