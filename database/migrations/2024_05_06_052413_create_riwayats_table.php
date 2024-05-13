@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('kode_riwayat', 255);
             $table->bigInteger('id_User');
-            $table->enum('status', ['', ''  ]);
             $table->string('keterangan', 255);
             $table->bigInteger('id_Jadwal' );
             $table->timestamps();
