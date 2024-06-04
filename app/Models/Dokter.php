@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Dokter extends Model
 {
+    protected $table = 'dokter';
     use HasFactory;
 
     public function jadwal(){

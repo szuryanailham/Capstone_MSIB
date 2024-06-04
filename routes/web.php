@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpecialistController;
+use App\Http\Controllers\DoctorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,5 +37,9 @@ Route::post('specialist', [SpecialistController::class, 'store'])->name('special
 Route::get('specialist/{specialist}/edit', [SpecialistController::class, 'edit'])->name('specialist.edit');
 Route::put('specialist/{specialist}', [SpecialistController::class, 'update'])->name('specialist.update');
 Route::delete('specialist/{specialist}', [SpecialistController::class, 'destroy'])->name('specialist.destroy');
+
+Route::get('/dokter', [DoctorController::class, 'index'])->name('dokter.index');
+Route::get('dokter/create', [DoctorController::class, 'create'])->name('dokter.create');
+Route::post('dokter', [DoctorController::class, 'store'])->name('dokter.store');
 
 require __DIR__.'/auth.php';
