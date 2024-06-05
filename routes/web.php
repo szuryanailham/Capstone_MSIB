@@ -1,20 +1,13 @@
 <?php
 
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\DoctorController;
+use App\Models\Dokter;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -41,5 +34,18 @@ Route::delete('specialist/{specialist}', [SpecialistController::class, 'destroy'
 Route::get('/dokter', [DoctorController::class, 'index'])->name('dokter.index');
 Route::get('dokter/create', [DoctorController::class, 'create'])->name('dokter.create');
 Route::post('dokter', [DoctorController::class, 'store'])->name('dokter.store');
+Route::get('dokter/{dokter}/edit', [DoctorController::class, 'edit'])->name('dokter.edit');
+Route::put('dokter/{dokter}', [DoctorController::class, 'update'])->name('dokter.update');
+Route::delete('dokter/{dokter}', [DoctorController::class, 'destroy'])->name('dokter.destroy');
+
+// Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
+// Route::get('blogs/show', [BlogController::class, 'show'])->name('blogs.show');
+// Route::get('blogs/create', [BlogController::class, 'create'])->name('blogs.create');
+// Route::post('blogs/create', [BlogController::class, 'store'])->name('blogs.store');
+// Route::get('blogs/{blog}edit', [BlogController::class, 'edit'])->name('blogs.edit');
+// Route::put('blogs/{blog}', [BlogController::class, 'update'])->name('blogs.update');
+// Route::delete('blogs/{blog}', [BlogController::class, 'destroy'])->name('blogs.destroy');
+
+Route::resource('blogs', BlogController::class);
 
 require __DIR__.'/auth.php';

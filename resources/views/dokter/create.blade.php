@@ -21,8 +21,8 @@
                             <form action="{{ route('dokter.store') }}" method="POST">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="nama_dokter">Nama Dokter:</label>
-                                    <input type="text" class="form-control" id="nama_dokter" name="nama_dokter">
+                                    <label for="nama_doktor">Nama Dokter:</label>
+                                    <input type="text" class="form-control" id="nama_doktor" name="nama_doktor">
                                 </div>
                                 <div class="form-group">
                                     <label for="specialist_id">Specialist:</label>

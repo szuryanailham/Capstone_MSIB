@@ -14,15 +14,20 @@ return new class extends Migration
         Schema::create('blog', function (Blueprint $table) {
             $table->id();
             $table->string('judul',255);
-            $table->bigInteger('id_doctor');
-            $table->bigInteger('id_category');
+            $table->unsignedBigInteger('id_doctor');
+            $table->unsignedBigInteger('id_category');
             $table->string('slug', 255);
             $table->string('body');
             $table->string('img')->nullable();
             $table->string('kutipan', 255);
             $table->dateTime('release_date');
             $table->timestamps();
+
+            $table->foreign('id_doctor')->references('id')->on('dokter')->onDelete('cascade');
+            $table->foreign('id_category')->references('id')->on('category')->onDelete('cascade');
         });
+
+
     }
 
     /**

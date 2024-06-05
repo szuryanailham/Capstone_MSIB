@@ -7,18 +7,27 @@ use Illuminate\Database\Eloquent\Model;
 
 class Dokter extends Model
 {
-    protected $table = 'dokter';
     use HasFactory;
+    protected $table = 'dokter';
+
+
+    protected $fillable = ['nama_doktor', 'specialist_id'];
+
+   
+    public function specialist()
+    {
+        return $this->belongsTo(Specialist::class);
+    }
 
     public function jadwal(){
         return $this->hasMany(Jadwal::class);
     }
-
-    public function blog(){
-        return $this->hasMany(blog::class);
-    }
-
-    public function specialist(){
-        return $this->belongsTo(Specialist::class);
+    
+    public function blogs(){
+        return $this->hasMany(Blog::class, 'id_doctor');
     }
 }
+
+
+
+
