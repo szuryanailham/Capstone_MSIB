@@ -27,7 +27,7 @@
                                 <h6 class="card-subtitle mb-2 text-muted">Slug: {{ $blog->slug }}</h6>
                                 <p class="card-text">{{ $blog->body }}</p>
                                 @if($blog->img)
-                                    <img src="{{ $blog->img }}" class="img-fluid" alt="{{ $blog->judul }}">
+                                <img src="{{ asset('storage/images/' . $blog->img) }}" alt="Blog Image">
                                 @endif
                                 <p class="card-text"><small class="text-muted">Release Date: {{ $blog->release_date }}</small></p>
                                 <p class="card-text">Excerpt: {{ $blog->kutipan }}</p>

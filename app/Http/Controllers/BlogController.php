@@ -35,10 +35,18 @@ class BlogController extends Controller
             'id_category' => 'required|integer',
             'slug' => 'required|max:255',
             'body' => 'required',
-            'img' => 'nullable|string',
+            'img' => 'nullable|image', 
             'kutipan' => 'required|max:255',
             'release_date' => 'required|date',
         ]);
+
+        if ($request->hasFile('img')) {
+            $path = $request->file('img')->storeAs(
+            'public/tema_img',
+            'tema_img_'.time() . '.' . $request->file('img')->extension()
+            );
+            $validated['cover'] = basename($path);
+        }
 
         Blog::create($request->all());
 
@@ -74,11 +82,19 @@ class BlogController extends Controller
             'id_doctor' => 'required|integer',
             'id_category' => 'required|integer',
             'slug' => 'required|max:255',
-            'body' => 'required',
-            'img' => 'nullable|string',
+            'body' => 'required',     
+            'img' => 'nullable|image',
             'kutipan' => 'required|max:255',
             'release_date' => 'required|date',
         ]);
+
+        if ($request->hasFile('img')) {
+            $path = $request->file('img')->storeAs(
+            'public/tema_img',
+            'tema_img_'.time() . '.' . $request->file('img')->extension()
+            );
+            $validated['cover'] = basename($path);
+        }
 
         $blog->update($request->all());
 

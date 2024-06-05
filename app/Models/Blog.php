@@ -15,7 +15,12 @@ class Blog extends Model
     use HasFactory;
 
     protected $fillable = [
-        'judul', 'id_doctor', 'id_category', 'slug', 'body', 'img', 'kutipan', 'release_date'
+        'judul',
+        'id_doctor',
+        'id_category',
+        'slug', 'body',
+        'img' => 'nullable',
+        'kutipan', 'release_date'
     ];
 
     public function dokter()

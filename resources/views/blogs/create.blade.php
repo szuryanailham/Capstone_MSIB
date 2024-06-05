@@ -51,7 +51,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="img">Image:</label>
-                                <input type="text" class="form-control" id="img" name="img">
+                                <input type="file" class="form-control" id="img" name="img">
                             </div>
                             <div class="form-group">
                                 <label for="kutipan">Kutipan:</label>

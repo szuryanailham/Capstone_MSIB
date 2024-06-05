@@ -59,7 +59,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="img" class="form-label">Image</label>
-                                <input type="text" class="form-control" id="img" name="img" value="{{ $blog->img }}">
+                                <input type="file" class="form-control" id="img" name="img" value="{{ $blog->img }}">
                             </div>
                             <div class="mb-3">
                                 <label for="kutipan" class="form-label">Kutipan</label>
