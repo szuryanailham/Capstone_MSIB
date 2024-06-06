@@ -19,13 +19,13 @@ class Dokter extends Model
         return $this->belongsTo(Specialist::class);
     }
 
-    public function jadwal(){
-        return $this->hasMany(Jadwal::class);
-    }
+   
     
     public function blogs(){
         return $this->hasMany(Blog::class, 'id_doctor');
     }
+
+    
 }
 
 

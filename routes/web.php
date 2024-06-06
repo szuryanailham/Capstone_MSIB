@@ -4,6 +4,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\JadwalController;
 use App\Models\Dokter;
 use Illuminate\Support\Facades\Route;
 
@@ -47,5 +48,7 @@ Route::delete('dokter/{dokter}', [DoctorController::class, 'destroy'])->name('do
 // Route::delete('blogs/{blog}', [BlogController::class, 'destroy'])->name('blogs.destroy');
 
 Route::resource('blogs', BlogController::class);
+
+Route::resource('jadwal', JadwalController::class);
 
 require __DIR__.'/auth.php';
