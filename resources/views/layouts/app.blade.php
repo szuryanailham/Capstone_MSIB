@@ -29,6 +29,9 @@
                 <li class="nav-item me-2">
                     <a class="nav-link text-light fw-semibold " href="{{route('jadwal.index')}}">Jadwal</a>
                 </li>
+                <li class="nav-item me-2">
+                    <a class="nav-link text-light fw-semibold " href="{{route('reservasi.index')}}">Pendaftaran Pasien</a>
+                </li>
             </ul>
         </div>
         <div class="btn me-5">

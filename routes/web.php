@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\ReservasiController;
 use App\Models\Dokter;
 use Illuminate\Support\Facades\Route;
 
@@ -45,6 +46,9 @@ Route::delete('dokter/{dokter}', [DoctorController::class, 'destroy'])->name('do
 Route::resource('blogs', BlogController::class);
 
 Route::resource('jadwal', JadwalController::class);
+Route::resource('reservasi', ReservasiController::class);
+Route::get('/get-doctors-by-specialist', [ReservasiController::class, 'getDoctorsBySpecialist'])->name('getDoctorsBySpecialist');
+
 
 // Route::get('/dashboard', function() {
 //     return view('dashboard');
