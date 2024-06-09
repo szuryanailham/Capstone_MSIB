@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\ReservasiController;
 use App\Models\Dokter;
 use Illuminate\Support\Facades\Route;
 
@@ -39,16 +40,22 @@ Route::get('dokter/{dokter}/edit', [DoctorController::class, 'edit'])->name('dok
 Route::put('dokter/{dokter}', [DoctorController::class, 'update'])->name('dokter.update');
 Route::delete('dokter/{dokter}', [DoctorController::class, 'destroy'])->name('dokter.destroy');
 
-// Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
-// Route::get('blogs/show', [BlogController::class, 'show'])->name('blogs.show');
-// Route::get('blogs/create', [BlogController::class, 'create'])->name('blogs.create');
-// Route::post('blogs/create', [BlogController::class, 'store'])->name('blogs.store');
-// Route::get('blogs/{blog}edit', [BlogController::class, 'edit'])->name('blogs.edit');
-// Route::put('blogs/{blog}', [BlogController::class, 'update'])->name('blogs.update');
-// Route::delete('blogs/{blog}', [BlogController::class, 'destroy'])->name('blogs.destroy');
+
+
 
 Route::resource('blogs', BlogController::class);
 
 Route::resource('jadwal', JadwalController::class);
+Route::resource('reservasi', ReservasiController::class);
+Route::get('/get-doctors-by-specialist', [ReservasiController::class, 'getDoctorsBySpecialist'])->name('getDoctorsBySpecialist');
+
+
+// Route::get('/dashboard', function() {
+//     return view('dashboard');
+// })->middleware('role:admin')->name('dashboard');
+
+// Route::get('/role', function() {
+//     return view('role');
+// })->middleware('role:user')->name('role');
 
 require __DIR__.'/auth.php';
