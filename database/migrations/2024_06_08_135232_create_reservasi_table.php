@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama_pasien');
             $table->enum('jenis_kelamin',['L','P']);
             $table->text('alamat');
-            $table->integer('no_hp');
+            $table->string('no_hp');
             $table->unsignedBigInteger('specialist_id');
             $table->unsignedBigInteger('id_doctor');
             $table->string('keluhan');

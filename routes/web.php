@@ -46,9 +46,14 @@ Route::delete('dokter/{dokter}', [DoctorController::class, 'destroy'])->name('do
 Route::resource('blogs', BlogController::class);
 
 Route::resource('jadwal', JadwalController::class);
-Route::resource('reservasi', ReservasiController::class);
-Route::get('/get-doctors-by-specialist', [ReservasiController::class, 'getDoctorsBySpecialist'])->name('getDoctorsBySpecialist');
+// Route::resource('reservasi', ReservasiController::class);
+// Route::get('/get-doctors-by-specialist', [ReservasiController::class, 'getDoctorsBySpecialist'])->name('getDoctorsBySpecialist');
 
+
+// Route::get('reservasi', [ReservasiController::class, 'index'])->name('reservasi.index');
+Route::get('reservasi', [ReservasiController::class, 'create'])->name('reservasi.create');
+Route::post('/reservasi', [ReservasiController::class, 'store'])->name('reservasi.store');
+Route::get('/reservasi/getDoctorsBySpecialist', [ReservasiController::class, 'getDoctorsBySpecialist']);
 
 // Route::get('/dashboard', function() {
 //     return view('dashboard');
