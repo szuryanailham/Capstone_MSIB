@@ -55,6 +55,7 @@ Route::resource('jadwal', JadwalController::class);
 Route::get('reservasi', [ReservasiController::class, 'create'])->name('reservasi.create');
 Route::post('/reservasi', [ReservasiController::class, 'store'])->name('reservasi.store');
 Route::get('/reservasi/getDoctorsBySpecialist', [ReservasiController::class, 'getDoctorsBySpecialist']);
+Route::get('reservasi/{id}', [ReservasiController::class, 'show'])->name('reservasi.show');
 
 
 Route::get('payments/create/{reservasi_id}', [PaymentController::class, 'create'])->name('payments.create');

@@ -56,5 +56,12 @@ class ReservasiController extends Controller
         $doctors = Dokter::where('specialist_id', $specialistId)->pluck('nama_doktor', 'id');
         return response()->json($doctors);
     }
+    public function show($id)
+    {
+        $reservasi = Reservasi::with(['dokter', 'specialist'])->findOrFail($id);
+        return view('reservasi.show', compact('reservasi'));
+    }
+
+    
     
 }

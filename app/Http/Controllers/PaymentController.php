@@ -17,23 +17,30 @@ class PaymentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'reservasi_id' => 'required|exists:reservasi,id',
+            'reservasi_id' => 'required|integer|exists:reservasi,id',
             'metode_pembayaran' => 'required|string|max:255',
             'no_rekening_tujuan' => 'required|string|max:255',
             'no_rekening_anda' => 'required|string|max:255',
-            'bukti_pembayaran' => 'required|image|max:2048',
+            'bukti_pembayaran' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $buktiPembayaranPath = $request->file('bukti_pembayaran')->store('bukti_pembayaran');
+        $payment = new Payment;
+        $payment->reservasi_id = $request->reservasi_id;
+        $payment->metode_pembayaran = $request->metode_pembayaran;
+        $payment->no_rekening_tujuan = $request->no_rekening_tujuan;
+        $payment->no_rekening_anda = $request->no_rekening_anda;
 
-        Payment::create([
-            'reservasi_id' => $request->reservasi_id,
-            'metode_pembayaran' => $request->metode_pembayaran,
-            'no_rekening_tujuan' => $request->no_rekening_tujuan,
-            'no_rekening_anda' => $request->no_rekening_anda,
-            'bukti_pembayaran' => $buktiPembayaranPath,
-        ]);
+        if ($request->hasFile('bukti_pembayaran')) {
+            $image = $request->file('bukti_pembayaran');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = public_path('/bukti_pembayaran');
+            $image->move($destinationPath, $name);
+            $payment->bukti_pembayaran = $name;
+        }
 
-        return redirect()->route('reservasi.create')->with('success', 'Pembayaran berhasil dilakukan.');
+        $payment->save();
+
+        // Redirect ke halaman hasil reservasi
+        return redirect()->route('reservasi.show', $request->reservasi_id);
     }
 }
