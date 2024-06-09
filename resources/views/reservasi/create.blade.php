@@ -32,35 +32,6 @@
 </head>
 
 <body>
-    <!-- navbar -->
-    <nav class="navbar navbar-expand-lg bg-blue sticky-top z-index-1">
-        <div class="container">
-            <ul class="navbar-nav">
-                <li class="nav-item me-2">
-                    <a class="nav-link active text-light fw-semibold aria-current=" page" href="landing-page-user.html">Beranda</a>
-                </li>
-                <li class="nav-item me-2">
-                    <a class="nav-link text-light fw-semibold " href="./regist-user.html">Pendaftaran Pasien</a>
-                </li>
-                <li class="nav-item me-2">
-                    <a class="nav-link text-light fw-semibold" href="#">Dokter</a>
-                </li>
-                <li class="nav-item me-2">
-                    <a class="nav-link text-light fw-semibold " href="#">Berita</a>
-                </li>
-                <li class="nav-item me-2">
-                    <a class="nav-link text-light fw-semibold " href="#">Kontak Kami</a>
-                </li>
-            </ul>
-        </div>
-        <div class="me-5">
-            <a href="/user/login-user.html"><button type="button" class="btn btn-primary px-4">
-                    Login
-                </button></a>
-        </div>
-    </nav>
-    <!-- navbar end -->
-
     <!-- section -->
     <section>
         <div class="conatiner">
@@ -119,7 +90,6 @@
                     <div class="form-text text-danger fw-semibold mb-2">*) Wajib diisi</div>
                     <div class="d-flex justify-content-between">
                         <button type="submit" class="btn btn-primary py-1">Kirim</button>
-                        <a href="{{ route('reservasi.create') }}" class="btn btn-danger py-1">Kembali</a>
                     </div>
                 </form>
             </div>

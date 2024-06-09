@@ -25,32 +25,30 @@ class ReservasiController extends Controller
 
     public function store(Request $request)
     {
-        // Validate incoming request
-        $validatedData = $request->validate([
-            'nama_pasien' => 'required|string',
-            'jenis_kelamin' => 'required|in:L,P',
-            'alamat' => 'required|string',
-            'no_hp' => 'required|numeric',
-            'specialist_id' => 'required|exists:specialists,id',
-            'id_doctor' => 'required|exists:dokter,id',
-            'keluhan' => 'required|string',
+        // Validasi data reservasi
+        $request->validate([
+            'nama_pasien' => 'required|string|max:255',
+            'jenis_kelamin' => 'required|string|max:1',
+            'alamat' => 'required|string|max:255',
+            'no_hp' => 'required|string|max:15',
+            'specialist_id' => 'required|integer|exists:specialists,id',
+            'id_doctor' => 'required|integer|exists:dokter,id',
+            'keluhan' => 'required|string|max:255',
             'tanggal_periksa' => 'required|date',
         ]);
-    
-        try {
-            // Create new reservation
-            $reservation = Reservasi::create($validatedData);
-    
-            return redirect()->route('reservasi.index')
-                ->with('success', 'Reservation created successfully');
-        } catch (\Exception $e) {
-            // Log the error or handle it appropriately
-            return redirect()->back()
-                ->withInput()
-                ->withErrors(['error' => 'Failed to create reservation. Please try again.']);
+
+        // Simpan data reservasi
+        $reservasi = Reservasi::create($request->all());
+
+        // Debugging
+        if ($reservasi) {
+            // Redirect ke halaman pembayaran
+            return redirect()->route('payments.create', $reservasi->id);
+        } else {
+            // Jika gagal, kembalikan ke halaman sebelumnya dengan pesan error
+            return redirect()->back()->with('error', 'Gagal membuat reservasi.');
         }
     }
-    
 
     public function getDoctorsBySpecialist(Request $request)
     {
