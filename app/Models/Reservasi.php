@@ -17,7 +17,7 @@ class Reservasi extends Model
         'specialist_id',
         'id_doctor',
         'keluhan',
-        'tanggal_periksa',
+        'id_jadwal',
     ];
 
     public function specialist()
@@ -28,5 +28,9 @@ class Reservasi extends Model
     public function dokter()
     {
         return $this->belongsTo(Dokter::class, 'id_doctor');
+    }
+    public function jadwal()
+    {
+        return $this->belongsTo(Jadwal::class, 'id_jadwal');
     }
 }

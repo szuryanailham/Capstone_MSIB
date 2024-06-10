@@ -20,11 +20,12 @@ return new class extends Migration
             $table->unsignedBigInteger('specialist_id');
             $table->unsignedBigInteger('id_doctor');
             $table->string('keluhan');
-            $table->date('tanggal_periksa');
+            $table->unsignedBigInteger('id_jadwal');
             $table->timestamps();
 
             $table->foreign('specialist_id')->references('id')->on('specialists')->onDelete('cascade');
             $table->foreign('id_doctor')->references('id')->on('dokter')->onDelete('cascade');
+            $table->foreign('id_jadwal')->references('id')->on('jadwal')->onDelete('cascade');
         });
     }
 

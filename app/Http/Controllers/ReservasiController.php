@@ -6,6 +6,7 @@ use App\Models\Dokter;
 use Illuminate\Http\Request;
 use App\Models\Reservasi;
 use App\Models\Specialist;
+use App\Models\Jadwal;
 
 class ReservasiController extends Controller
 {
@@ -19,8 +20,10 @@ class ReservasiController extends Controller
 
     public function create()
     {
+        
         $specialists = Specialist::all();
         return view('reservasi.create', compact('specialists'));
+
     }
 
     public function store(Request $request)
@@ -34,7 +37,7 @@ class ReservasiController extends Controller
             'specialist_id' => 'required|integer|exists:specialists,id',
             'id_doctor' => 'required|integer|exists:dokter,id',
             'keluhan' => 'required|string|max:255',
-            'tanggal_periksa' => 'required|date',
+            'id_jadwal' => 'required|exists:jadwal,id'
         ]);
 
         // Simpan data reservasi
@@ -55,6 +58,12 @@ class ReservasiController extends Controller
         $specialistId = $request->specialist_id;
         $doctors = Dokter::where('specialist_id', $specialistId)->pluck('nama_doktor', 'id');
         return response()->json($doctors);
+    }
+    
+    public function getJadwalByDoctor(Request $request)
+    {
+        $jadwals = Jadwal::where('id_doctor', $request->id_doctor)->get();
+        return response()->json($jadwals);
     }
     public function show($id)
     {
