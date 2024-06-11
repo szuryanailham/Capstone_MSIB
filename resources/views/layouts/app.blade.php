@@ -22,15 +22,17 @@
                 </li>
                 <li class="nav-item me-2">
                     <a class="nav-link text-light fw-semibold" href="{{ route('dokter.index') }}">Dokter</a>
-                </li>   
-                <li class="nav-item me-2">
-                    <a class="nav-link text-light fw-semibold " href="{{ route('blogs.index') }}">Kelola Blog</a>
                 </li>
+                @can('admin')
+                <li class="nav-item me-2">
+                    <a class="nav-link text-light fw-semibold " href="">Kelola Blog</a>
+                </li>   
+                @endcan
                 <li class="nav-item me-2">
                     <a class="nav-link text-light fw-semibold " href="{{route('jadwal.index')}}">Jadwal</a>
                 </li>
                 <li class="nav-item me-2">
-                    <a class="nav-link text-light fw-semibold " href="{{route('reservasi.create')}}">Pendaftaran Pasien</a>
+                    <a class="nav-link text-light fw-semibold " href="{{route('reservasi.create')}}">Daftar Reservasi</a>
                 </li>
             </ul>
         </div>
