@@ -84,8 +84,10 @@
                         <input type="text" name="keluhan" class="form-control clr-input" id="keluhan" placeholder="masukan keluhan anda" value="{{ old('keluhan') }}" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label fw-semibold">Tanggal Periksa</label>
-                        <input type="date" name="tanggal_periksa" class="form-control clr-input" id="tanggal_periksa" placeholder="masukan tanggal periksa" value="{{ old('tanggal_periksa') }}" required>
+                        <label class="form-label fw-semibold">Pilih Jadwal</label>
+                        <select name="id_jadwal" class="form-control clr-input" id="id_jadwal" required>
+                            <option value="">Pilih Tanggal</option>
+                        </select>
                     </div>
                     <div class="form-text text-danger fw-semibold mb-2">*) Wajib diisi</div>
                     <div class="d-flex justify-content-between">
@@ -149,8 +151,44 @@
                     console.error('Kesalahan saat mengambil dokter:', error); // Log untuk debugging
                 });
         });
-    </script>
-</body>
 
+        document.getElementById('id_doctor').addEventListener('change', function () {
+            var doctorId = this.value;
+            console.log('ID dokter yang dipilih:', doctorId); // Log untuk debugging
+            fetch('/reservasi/getJadwalByDoctor?id_doctor=' + doctorId)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Jadwal yang diambil:', data); // Log untuk debugging
+                    var jadwalSelect = document.getElementById('id_jadwal');
+                    jadwalSelect.innerHTML = '<option value="">Pilih Tanggal</option>';
+                    data.forEach(function(jadwal) {
+                        var hari = jadwal.hari;
+                        var jamMulai = jadwal.jam_mulai;
+                        var jamSelesai = jadwal.jam_selesai;
+
+                        var currentDate = new Date();
+                        var currentDay = currentDate.getDay(); // Sunday - Saturday : 0 - 6
+                        var targetDay = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"].indexOf(hari);
+
+                        // Calculate the difference in days
+                        var dayDifference = (targetDay + 7 - currentDay) % 7;
+                        if (dayDifference === 0) {
+                            dayDifference = 7; // Set to next week if the same day
+                        }
+
+                        var optionDate = new Date(currentDate);
+                        optionDate.setDate(currentDate.getDate() + dayDifference);
+
+                        var option = document.createElement('option');
+                        option.value = jadwal.id;
+                        option.text = `${hari}, ${optionDate.toLocaleDateString()} ${jamMulai} - ${jamSelesai}`;
+                        jadwalSelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Kesalahan saat mengambil jadwal:', error); // Log untuk debugging
+                });
+        });
+    </script>
 </html>
 @endsection
