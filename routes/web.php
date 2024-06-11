@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReservasiController;
 use App\Models\Dokter;
 use Illuminate\Support\Facades\Route;
@@ -46,8 +47,20 @@ Route::delete('dokter/{dokter}', [DoctorController::class, 'destroy'])->name('do
 Route::resource('blogs', BlogController::class);
 
 Route::resource('jadwal', JadwalController::class);
-Route::resource('reservasi', ReservasiController::class);
-Route::get('/get-doctors-by-specialist', [ReservasiController::class, 'getDoctorsBySpecialist'])->name('getDoctorsBySpecialist');
+// Route::resource('reservasi', ReservasiController::class);
+// Route::get('/get-doctors-by-specialist', [ReservasiController::class, 'getDoctorsBySpecialist'])->name('getDoctorsBySpecialist');
+
+
+// Route::get('reservasi', [ReservasiController::class, 'index'])->name('reservasi.index');
+Route::get('reservasi', [ReservasiController::class, 'create'])->name('reservasi.create');
+Route::post('/reservasi', [ReservasiController::class, 'store'])->name('reservasi.store');
+Route::get('/reservasi/getDoctorsBySpecialist', [ReservasiController::class, 'getDoctorsBySpecialist']);
+Route::get('/reservasi/getJadwalByDoctor', [ReservasiController::class, 'getJadwalByDoctor']);
+Route::get('reservasi/{id}', [ReservasiController::class, 'show'])->name('reservasi.show');
+
+
+Route::get('payments/create/{reservasi_id}', [PaymentController::class, 'create'])->name('payments.create');
+Route::post('payments/store', [PaymentController::class, 'store'])->name('payments.store');
 
 
 // Route::get('/dashboard', function() {
