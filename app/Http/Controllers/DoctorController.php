@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dokter;
+use App\Models\Jadwal;
 use App\Models\Specialist;
 use Illuminate\Http\Request;
 
@@ -16,6 +17,18 @@ class DoctorController extends Controller
         $dokters = Dokter::with('specialist')->get();
         return view('dokter.index', compact('dokters'));
     }
+    public function admin()
+    {
+        $dokters = Dokter::with('specialist')->get();
+        return view('dokter.admin', compact('dokters'));
+    }
+    public function show($id)
+{
+    $dokter = Dokter::with('specialist')->findOrFail($id);
+    $jadwals = Jadwal::where('id_doctor', $id)->get();
+
+    return view('dokter.profile', compact('dokter', 'jadwals'));
+}
 
     /**
      * Show the form for creating a new resource.

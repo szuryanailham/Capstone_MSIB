@@ -25,7 +25,7 @@
                 </li>
                 @can('admin')
                 <li class="nav-item me-2">
-                    <a class="nav-link text-light fw-semibold " href="">Kelola Blog</a>
+                    <a class="nav-link text-light fw-semibold " href="{{route('blogs.index')}}">Kelola Blog</a>
                 </li>   
                 @endcan
                 <li class="nav-item me-2">
