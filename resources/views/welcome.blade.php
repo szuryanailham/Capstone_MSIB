@@ -15,10 +15,10 @@
         <div class="container">
             <ul class="navbar-nav">
                 <li class="nav-item me-2">
-                    <a class="nav-link active text-light fw-semibold" href="landing-page-user.html">Beranda</a>
+                    <a class="nav-link active text-light fw-semibold" href="#">Beranda</a>
                 </li>
                 <li class="nav-item me-2">
-                    <a class="nav-link text-light fw-semibold " href="./regist-user.html">Pendaftaran Pasien</a>
+                    <a class="nav-link text-light fw-semibold " href="{{route('reservasi.create')}}">Pendaftaran Pasien</a>
                 </li>
                 <li class="nav-item me-2">
                     <a class="nav-link text-light fw-semibold" href="#">Dokter</a>

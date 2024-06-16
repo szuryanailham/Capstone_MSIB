@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Pendaftaran Pasien')
+@section('title', 'Profile Dokter')
 
 @section('content')
 
@@ -32,39 +32,31 @@
         }
     </style>
 </head>
+
 <body>
     <!-- hero section -->
-    
     <section>
-        <div class="conatiner">
-            <a href="/user/regist-user.html"><img class="img-custom object-fit-cover" src="/asset/SubHead.png"
-                    alt=""></a>
-                   
-            <div class="container mt-5 mb-5">
-                @can('admin')
-                <a href="{{ route('dokter.admin') }}" class="btn btn-primary mb-3">Manage admin</a>    
-                @endcan
-                @if($dokters->isEmpty())
-                    <p>No doctors available.</p>
-                @else
-                    <div class="d-flex flex-row justify-content-center flex-wrap">
-                        @foreach($dokters as $dokter)
-                            <div class="card m-2" style="width: 18rem;">
-                                <img src="{{ $dokter->image_url ?? '/asset/Rectangle 20.png' }}" class="card-img-top card-img" alt="card">
-                                <div class="card-body" style="background-color: #BFD2F8;">
-                                    <h5 class="card-title">{{ $dokter->nama_doktor }}</h5>
-                                    <p class="card-text">{{ $dokter->specialist->specialist_name ?? 'No Specialist' }}</p>
-                                    <a href="{{ route('dokter.profile', ['id' => $dokter->id]) }}" class="btn btn-primary w-100 bg-blue">View Profile</a>
-                                </div>
-                            </div>
+        <a href="/user/regist-user.html"><img class="img-custom object-fit-cover " src="/asset/SubHead.png" alt=""></a>
+        <div class="container mt-5 mb-5">
+            <div class="d-flex flex-row justify-content-center">
+                <div class="card">
+                    <img src="{{ $dokter->image_url ?? '/asset/Rectangle 20.png' }}" alt="img">
+                </div>
+                <div class="card ms-3 px-3 py-3 text-center" style="background-color: #D9D9D9; width: 30%;">
+                    <br><br><br>
+                    <h5>{{ $dokter->nama_doktor }}</h5>
+                    <p>{{ $dokter->specialist->specialist_name ?? 'No Specialist' }}</p>
+                    <h6>Jadwal Praktik</h6>
+                    <p class="lh-base">
+                        @foreach($dokter->jadwals as $jadwal)
+                            {{ $jadwal->hari }} : {{ $jadwal->jam_mulai }} - {{ $jadwal->jam_selesai }}<br>
                         @endforeach
-                    </div>
-                @endif
+                    </p>
+                    <br>
+                    <a href="{{ route('dokter.index') }}"><button type="button" class="btn btn-danger w-100">Kembali</button></a>
+                </div>
             </div>
         </div>
-        {{-- <div>
-            <img src="/asset/Group 220.png" class="" alt="">
-        </div> --}}
     </section>
     <!-- hero section end -->
 
@@ -96,7 +88,7 @@
                 </div>
             </div>
     </footer>
-    <!-- footer -->
+    <!-- footer end -->
     <!-- cdn js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
