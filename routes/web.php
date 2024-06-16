@@ -25,6 +25,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/reservasi', [ReservasiController::class, 'store'])->name('reservasi.store');
     Route::get('/reservasi/getDoctorsBySpecialist', [ReservasiController::class, 'getDoctorsBySpecialist']);
     Route::get('/reservasi/getJadwalByDoctor', [ReservasiController::class, 'getJadwalByDoctor']);
+    Route::get('/reservasi/riwayat', [ReservasiController::class, 'history'])->name('reservasi.history');
+    Route::get('/reservasi/{reservasi}', [ReservasiController::class, 'detail'])->name('reservasi.detail');
+    Route::get('/reservasi/{reservasi}/download-pdf', [ReservasiController::class, 'downloadPDF'])->name('reservasi.pdf');
     Route::get('reservasi/{id}', [ReservasiController::class, 'show'])->name('reservasi.show');
 
 

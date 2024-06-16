@@ -34,6 +34,9 @@
                 <li class="nav-item me-2">
                     <a class="nav-link text-light fw-semibold " href="{{route('reservasi.create')}}">Daftar Reservasi</a>
                 </li>
+                <li class="nav-item me-2">
+                    <a class="nav-link text-light fw-semibold " href="{{route('reservasi.history')}}">Riwayat Reservasi</a>
+                </li>
             </ul>
         </div>
         <div class="btn me-5">

@@ -21,11 +21,13 @@ return new class extends Migration
             $table->unsignedBigInteger('id_doctor');
             $table->string('keluhan');
             $table->unsignedBigInteger('id_jadwal');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
             $table->foreign('specialist_id')->references('id')->on('specialists')->onDelete('cascade');
             $table->foreign('id_doctor')->references('id')->on('dokter')->onDelete('cascade');
             $table->foreign('id_jadwal')->references('id')->on('jadwal')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
