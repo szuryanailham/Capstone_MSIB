@@ -23,12 +23,12 @@ class DoctorController extends Controller
         return view('dokter.admin', compact('dokters'));
     }
     public function show($id)
-{
-    $dokter = Dokter::with('specialist')->findOrFail($id);
-    $jadwals = Jadwal::where('id_doctor', $id)->get();
+    {
+        $dokter = Dokter::with('specialist')->findOrFail($id);
+        $jadwals = Jadwal::where('id_doctor', $id)->get();
 
-    return view('dokter.profile', compact('dokter', 'jadwals'));
-}
+        return view('dokter.profile', compact('dokter', 'jadwals'));
+    }
 
     /**
      * Show the form for creating a new resource.

@@ -47,6 +47,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
    
     Route::get('dokter/create', [DoctorController::class, 'create'])->name('dokter.create');
     Route::post('dokter', [DoctorController::class, 'store'])->name('dokter.store');
+    Route::get('/dokter/admin', [DoctorController::class, 'admin'])->name('dokter.admin');
     Route::get('dokter/{dokter}/edit', [DoctorController::class, 'edit'])->name('dokter.edit');
     Route::put('dokter/{dokter}', [DoctorController::class, 'update'])->name('dokter.update');
     Route::delete('dokter/{dokter}', [DoctorController::class, 'destroy'])->name('dokter.destroy');
@@ -72,7 +73,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
 Route::get('/dokter', [DoctorController::class, 'index'])->name('dokter.index');
 Route::get('/dokter/{id}', [DoctorController::class, 'show'])->name('dokter.profile');
-Route::get('/dokter/admin', [DoctorController::class, 'admin'])->name('dokter.admin');
 Route::get('/specialist', [SpecialistController::class, 'index'])->name('specialist.index');
 Route::get('/jadwal', [JadwalController::class, 'index'])->name('jadwal.index');
 
