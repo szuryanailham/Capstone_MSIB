@@ -21,7 +21,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () { 
-    Route::get('reservasi', [ReservasiController::class, 'create'])->name('reservasi.create');
+    Route::get('reservasi/create', [ReservasiController::class, 'create'])->name('reservasi.create');
     Route::post('/reservasi', [ReservasiController::class, 'store'])->name('reservasi.store');
     Route::get('/reservasi/getDoctorsBySpecialist', [ReservasiController::class, 'getDoctorsBySpecialist']);
     Route::get('/reservasi/getJadwalByDoctor', [ReservasiController::class, 'getJadwalByDoctor']);
@@ -44,13 +44,16 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('specialist/{specialist}', [SpecialistController::class, 'update'])->name('specialist.update');
     Route::delete('specialist/{specialist}', [SpecialistController::class, 'destroy'])->name('specialist.destroy');
     
-   
+    Route::get('reservasi', [ReservasiController::class, 'index'])->name('reservasi.index');
     Route::get('dokter/create', [DoctorController::class, 'create'])->name('dokter.create');
     Route::post('dokter', [DoctorController::class, 'store'])->name('dokter.store');
     Route::get('/dokter/admin', [DoctorController::class, 'admin'])->name('dokter.admin');
     Route::get('dokter/{dokter}/edit', [DoctorController::class, 'edit'])->name('dokter.edit');
     Route::put('dokter/{dokter}', [DoctorController::class, 'update'])->name('dokter.update');
     Route::delete('dokter/{dokter}', [DoctorController::class, 'destroy'])->name('dokter.destroy');
+    Route::get('/blogs/admin', [BlogController::class, 'admin'])->name('blogs.admin');
+    
+
 
     Route::resource('jadwal', JadwalController::class)->except(['index']);
     Route::resource('blogs', BlogController::class);
@@ -72,6 +75,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
 
 Route::get('/dokter', [DoctorController::class, 'index'])->name('dokter.index');
+Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
 Route::get('/dokter/{id}', [DoctorController::class, 'show'])->name('dokter.profile');
 Route::get('/specialist', [SpecialistController::class, 'index'])->name('specialist.index');
 Route::get('/jadwal', [JadwalController::class, 'index'])->name('jadwal.index');
