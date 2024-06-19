@@ -17,8 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('id_doctor');
             $table->unsignedBigInteger('id_category');
             $table->string('slug', 255);
-            $table->string('body');
-            $table->string('img')->nullable();
+            $table->text('body');
+            $table->string('cover')->nullable();
             $table->string('kutipan', 255);
             $table->dateTime('release_date');
             $table->timestamps();

@@ -19,7 +19,7 @@ class Blog extends Model
         'id_doctor',
         'id_category',
         'slug', 'body',
-        'img' => 'nullable',
+        'cover',
         'kutipan', 'release_date'
     ];
 

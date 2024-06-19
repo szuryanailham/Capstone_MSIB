@@ -6,6 +6,7 @@ use App\Models\Blog;
 use App\Models\Category;
 use App\Models\Dokter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BlogController extends Controller
 {
@@ -17,6 +18,11 @@ class BlogController extends Controller
         $blogs = Blog::all();
         return view('blogs.index', compact('blogs'));
     }
+    public function admin()
+    {
+        $blogs = Blog::all();
+        return view('blogs.admin', compact('blogs'));
+    }
 
     
     public function create()
@@ -25,33 +31,77 @@ class BlogController extends Controller
         $categories = Category::all();
         return view('blogs.create', compact('doctors', 'categories'));
     }
-
+    
    
     public function store(Request $request)
     {
         $request->validate([
-            'judul' => 'required|max:255',
-            'id_doctor' => 'required|integer',
-            'id_category' => 'required|integer',
-            'slug' => 'required|max:255',
-            'body' => 'required',
-            'img' => 'nullable|image', 
-            'kutipan' => 'required|max:255',
+            'judul' => 'required|string|max:255',
+            'id_doctor' => 'required|exists:dokter,id',
+            'id_category' => 'required|exists:category,id',
+            'slug' => 'required|string|max:255',
+            'body' => 'required|string',
+            'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'kutipan' => 'required|string|max:255',
             'release_date' => 'required|date',
         ]);
 
-        if ($request->hasFile('img')) {
-            $path = $request->file('img')->storeAs(
-            'public/tema_img',
-            'tema_img_'.time() . '.' . $request->file('img')->extension()
-            );
-            $validated['cover'] = basename($path);
+        $coverPath = null;
+        if ($request->hasFile('cover')) {
+            $coverPath = $request->file('cover')->store('covers', 'public');
         }
 
-        Blog::create($request->all());
+        $blog = new Blog([
+            'judul' => $request->get('judul'),
+            'id_doctor' => $request->get('id_doctor'),
+            'id_category' => $request->get('id_category'),
+            'slug' => $request->get('slug'),
+            'body' => $request->get('body'),
+            'cover' => $coverPath,
+            'kutipan' => $request->get('kutipan'),
+            'release_date' => $request->get('release_date'),
+        ]);
 
-        return redirect()->route('blogs.index')
-                         ->with('success', 'Blog created successfully.');
+        $blog->save();
+
+        return redirect()->route('blogs.admin')->with('success', 'Blog post created successfully.');
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'id_doctor' => 'required|exists:dokter,id',
+            'id_category' => 'required|exists:category,id',
+            'slug' => 'required|string|max:255',
+            'body' => 'required|string',
+            'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'kutipan' => 'required|string|max:255',
+            'release_date' => 'required|date',
+        ]);
+
+        $blog = Blog::findOrFail($id);
+
+        if ($request->hasFile('cover')) {
+            // Delete old cover if it exists
+            if ($blog->cover) {
+                Storage::disk('public')->delete($blog->cover);
+            }
+            $coverPath = $request->file('cover')->store('covers', 'public');
+            $blog->cover = $coverPath;
+        }
+
+        $blog->judul = $request->get('judul');
+        $blog->id_doctor = $request->get('id_doctor');
+        $blog->id_category = $request->get('id_category');
+        $blog->slug = $request->get('slug');
+        $blog->body = $request->get('body');
+        $blog->kutipan = $request->get('kutipan');
+        $blog->release_date = $request->get('release_date');
+
+        $blog->save();
+
+        return redirect()->route('blogs.admin')->with('success', 'Blog post created successfully.');
     }
 
     /**
@@ -75,33 +125,6 @@ class BlogController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Blog $blog)
-    {
-        $request->validate([
-            'judul' => 'required|max:255',
-            'id_doctor' => 'required|integer',
-            'id_category' => 'required|integer',
-            'slug' => 'required|max:255',
-            'body' => 'required',     
-            'img' => 'nullable|image',
-            'kutipan' => 'required|max:255',
-            'release_date' => 'required|date',
-        ]);
-
-        if ($request->hasFile('img')) {
-            $path = $request->file('img')->storeAs(
-            'public/tema_img',
-            'tema_img_'.time() . '.' . $request->file('img')->extension()
-            );
-            $validated['cover'] = basename($path);
-        }
-
-        $blog->update($request->all());
-
-        return redirect()->route('blogs.index')
-                         ->with('success', 'Blog updated successfully.');
-    }
-
     /**
      * Remove the specified resource from storage.
      */
@@ -109,7 +132,7 @@ class BlogController extends Controller
     {
         $blog->delete();
 
-        return redirect()->route('blogs.index')
+        return redirect()->route('blogs.admin')
                          ->with('success', 'Blog deleted successfully.');
     }
 }

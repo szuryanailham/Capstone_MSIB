@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Reservasi;
 use App\Models\Specialist;
 use App\Models\Jadwal;
+use Illuminate\Support\Facades\Auth;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class ReservasiController extends Controller
 {
@@ -17,19 +20,22 @@ class ReservasiController extends Controller
         $dokters = Dokter::with('specialist')->get();
         return view('reservasi.index', compact('reservasis', 'specialists', 'dokters'));
     }
+    public function history()
+    {
+        $reservasis = Reservasi::where('user_id', auth()->id())->with('specialist', 'dokter')->get();
+        return view('reservasi.history', compact('reservasis'));
+    }
 
     public function create()
     {
-        
         $specialists = Specialist::all();
         return view('reservasi.create', compact('specialists'));
-
     }
 
     public function store(Request $request)
     {
-        // Validasi data reservasi
-        $request->validate([
+        // Validate reservation data
+        $validatedData = $request->validate([
             'nama_pasien' => 'required|string|max:255',
             'jenis_kelamin' => 'required|string|max:1',
             'alamat' => 'required|string|max:255',
@@ -39,17 +45,20 @@ class ReservasiController extends Controller
             'keluhan' => 'required|string|max:255',
             'id_jadwal' => 'required|exists:jadwal,id'
         ]);
-
-        // Simpan data reservasi
-        $reservasi = Reservasi::create($request->all());
-
-        // Debugging
+    
+        // Associate reservation with the authenticated user
+        $validatedData['user_id'] = Auth::id();
+    
+        // Create and save the reservation
+        $reservasi = Reservasi::create($validatedData);
+    
+        // Check if the reservation was successfully saved
         if ($reservasi) {
-            // Redirect ke halaman pembayaran
+            // Redirect to the payment page
             return redirect()->route('payments.create', $reservasi->id);
         } else {
-            // Jika gagal, kembalikan ke halaman sebelumnya dengan pesan error
-            return redirect()->back()->with('error', 'Gagal membuat reservasi.');
+            // If failed, return back with an error message
+            return redirect()->back()->with('error', 'Failed to create reservation.');
         }
     }
 
@@ -70,7 +79,38 @@ class ReservasiController extends Controller
         $reservasi = Reservasi::with(['dokter', 'specialist'])->findOrFail($id);
         return view('reservasi.show', compact('reservasi'));
     }
+    public function detail(Reservasi $reservasi)
+    {
+        // Load related payment information
+        $reservasi->load('payment');
 
-    
-    
+        return view('reservasi.detail', compact('reservasi'));
+    }
+
+    public function downloadPDF(Reservasi $reservasi)
+    {
+        // Load related payment information
+        $reservasi->load('payment');
+
+        // Instantiate Dompdf with options
+        $pdf = new Dompdf();
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $pdf->setOptions($options);
+
+        // Load the HTML template
+        $html = view('reservasi.pdf', compact('reservasi'))->render();
+
+        // Load HTML content
+        $pdf->loadHtml($html);
+
+        // Set paper size and orientation
+        $pdf->setPaper('A4', 'portrait');
+
+        // Render PDF (generate)
+        $pdf->render();
+
+        // Output the generated PDF content to the browser
+        return $pdf->stream('reservation_details.pdf');
+    }
 }

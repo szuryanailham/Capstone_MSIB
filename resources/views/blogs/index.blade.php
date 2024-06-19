@@ -3,76 +3,139 @@
 @section('title', 'Pendaftaran Pasien')
 
 @section('content')
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Dokter</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Reservasi Rumah Sakit</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <style>
+        .bg-blue {
+            background-color: #212e77;
+        }
+
+        .img-custom {
+            margin-top: 0px;
+            height: 170px;
+            width: 100%;
+        }
+
+        .img-jdwl {
+            height: 400px;
+            width: 90%;
+        }
+
+        .card-img {
+            height: 300px;
+            width: 100%;
+        }
+    </style>
 </head>
+
 <body>
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Category</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Tambahkan data kategori baru.</h6>
-                        <a href="#" class="btn btn-primary mb-3">Create New Category</a>
+    <section>
+        <a href="/user/regist-user.html"><img class="img-custom object-fit-cover " src="/asset/SubHead.png"
+                alt="img"></a>
+        <div class="container mt-5 mb-5">
+            @can('admin')
+            <a href="{{ route('blogs.admin') }}" class="btn btn-primary mb-3">Manage Admin</a>
+            @endcan
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                @foreach($blogs as $blog)
+                <div class="col">
+                    <div class="card">
+                        <img src="{{ $blog->cover ? Storage::url($blog->cover) : asset('default-cover.jpg') }}" class="card-img-top" alt="{{ $blog->judul }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $blog->judul }}</h5>
+                            <p class="card-text">{{ Str::limit($blog->body, 100) }}</p>
+                            <a href="{{ route('blogs.show', $blog->id) }}"><button type="button" class="btn btn-dark rounded-pill">Read More -></button></a>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+        <div class="container mb-5">
+            <h1 class="text-center mb-4">Contact</h1>
+            <div class="row row-cols-1 row-cols-md-4 g-1">
+                <div class="col">
+                    <div class="card p-3" style="width: 15rem; height: 236px;">
+                        <div class="card-body">
+                            <img src="/asset/ambulance.png" alt="img" style="width: 50px;" class="mb-3">
+                            <p class="fw-semibold">Emergency</p>
+                            <p class="lh-base">+628123456789 <br>+628123456789</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card p-3" style="width: 15rem; height: 236px;">
+                        <div class="card-body">
+                            <img src="/asset/location.png" alt="img" style="width: 50px;" class="mb-3">
+                            <p class="fw-semibold">Location</p>
+                            <p class="lh-base">Jakarta, selatan</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card p-3" style="width: 15rem; height: 236px;">
+                        <div class="card-body">
+                            <img src="/asset/email.png" alt="img" style="width: 50px;" class="mb-3">
+                            <p class="fw-semibold">Email</p>
+                            <p class="lh-base">example@gmail.com <br> example1@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card p-3" style="width: 15rem; height: 236px;">
+                        <div class="card-body">
+                            <img src="/asset/clock.png" alt="img" style="width: 50px;" class="mb-3">
+                            <p class="fw-semibold">Working Hours</p>
+                            <p class="lh-base">Mon - Sat <br> 9.20 - 17.00</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </section>
+    <!-- hero section end -->
 
-        <h1 class="mt-4">Blogs</h1>
-        <a href="{{ route('blogs.create') }}" class="btn btn-primary mb-3">Create New Blog</a>
-        
-        @if ($message = Session::get('success'))
-            <div class="alert alert-success">
-                <strong>{{ $message }}</strong>
+    <!-- footer -->
+    <footer class="footer p-5 bg-blue">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 text-light">
+                    <h4>Reservasi Rumah Sakit</h4>
+                </div>
+                <div class="col-md-3 text-light">
+                    <h5>Tentang Kami</h5>
+                    <p>
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cupiditate cum molestiae aliquam illo
+                        provident id.
+                    </p>
+                </div>
+                <div class="col-md-3 text-light">
+                    <h5>Kontak </h5>
+                    <ul class="list-unstyled">
+                        <li>Email: info@example.com</li>
+                        <li>Phone: +1233567890</li>
+                    </ul>
+                </div>
             </div>
-        @endif
-        
-        <table class="table table-bordered">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col" width="1%">No</th>
-                    <th scope="col" width="15%">Title</th>
-                    <th scope="col" width="10%">Doctor ID</th>
-                    <th scope="col" width="15%">Category ID</th>
-                    <th scope="col" width="10%">Slug</th>
-                    <th scope="col" width="20%">Excerpt</th>
-                    <th scope="col" width="10%">Release Date</th>
-                    <th scope="col" width="25%">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($blogs as $blog)
-                    <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $blog->judul }}</td>
-                        <td>{{ $blog->dokter->nama_doktor }}</td>
-                        <td>{{ $blog->category->name }}</td>
-                        <td>{{ $blog->slug }}</td>
-                        <td>{{ $blog->kutipan }}</td>
-                        <td>{{ $blog->release_date }}</td>
-                        <td>
-                            <a href="{{ route('blogs.show', $blog->id) }}" class="btn btn-info btn-sm">Show</a>
-                            <a href="{{ route('blogs.edit', $blog->id) }}" class="btn btn-primary btn-sm">Edit</a>
-                            <form action="{{ route('blogs.destroy', $blog->id) }}" method="POST" style="display: inline-block;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Include Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+            <div class="row">
+                <div class="col-md-12 text-center text-light">
+                    <p>&copy; 2024 Reservasi Rumah Sakit.</p>
+                </div>
+            </div>
+    </footer>
+    <!-- footer -->
+    <!-- cdn js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </body>
-@endsection
+
+</html>
+@endsection 
